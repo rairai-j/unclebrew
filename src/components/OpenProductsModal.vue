@@ -48,36 +48,34 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   product: {
     type: Object,
     required: true,
   },
-});
+})
 
-const emit = defineEmits(['close', 'submit']);
+const emit = defineEmits(['close', 'submit'])
 
-// Add reactive state for form
-const size = ref('');
-const quantity = ref(1);
-const addons = ref(0);
+const size = ref('')
+const quantity = ref(1)
+const addons = ref(0)
 
-// Add computed property for total price
 const totalPrice = computed(() => {
-  return (Number(size.value) + Number(addons.value)) * quantity.value;
-});
+  return (Number(size.value) + Number(addons.value)) * quantity.value
+})
 
 const closeModal = () => {
-  emit('close');
-};
+  emit('close')
+}
 
 const resetForm = () => {
-  size.value = '';
-  quantity.value = 1;
-  addons.value = 0;
-};
+  size.value = ''
+  quantity.value = 1
+  addons.value = 0
+}
 
 const submitForm = () => {
   const formData = {
@@ -87,19 +85,19 @@ const submitForm = () => {
     quantity: quantity.value,
     addons: addons.value,
     totalPrice: totalPrice.value,
-  };
+  }
 
   // Retrieve existing orders from local storage, or initialize an empty array
-  const storedOrders = JSON.parse(localStorage.getItem('orderData')) || [];
+  const storedOrders = JSON.parse(localStorage.getItem('orderData')) || []
   // Append new order
-  storedOrders.push(formData);
+  storedOrders.push(formData)
   // Save updated orders to local storage
-  localStorage.setItem('orderData', JSON.stringify(storedOrders));
+  localStorage.setItem('orderData', JSON.stringify(storedOrders))
 
-  emit('submit', formData);
-  resetForm();
-  closeModal();
-};
+  emit('submit', formData)
+  resetForm()
+  closeModal()
+}
 </script>
 
 <style scoped>
@@ -244,7 +242,9 @@ button {
   width: 22vw;
   height: 40vh;
   border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .image-section img:hover {
