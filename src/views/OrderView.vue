@@ -13,27 +13,73 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr v-if="orders.length === 0">
             <td colspan="5" class="no-item">No Item Added</td>
+          </tr>
+          <tr v-for="(order, index) in orders" :key="index">
+            <td>{{ order.name }}</td>
+            <td>₱ {{ order.size }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>₱ {{ order.totalPrice }}</td>
+            <td>
+              <button @click="removeOrder(index)" class="remove-order">Remove</button>
+            </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
             <td colspan="3" class="grand-total-label">Grand Total:</td>
-            <td class="grand-total">0</td>
+            <td class="grand-total">₱ {{ grandTotal }}</td>
             <td>
-              <button class="delete-all">Delete All</button>
+              <button @click="deleteAllOrders" class="delete-all">Delete All</button>
             </td>
           </tr>
         </tfoot>
       </table>
       <div class="cart-actions">
-        <button class="add-items">Add items</button>
-        <button class="place-order">Place Order</button>
+        <button class="add-items" @click="addItems">Add Items</button>
+        <button class="place-order" @click="placeOrder">Place Order</button>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+
+const orders = ref([]);
+
+const loadOrders = () => {
+  const storedOrders = JSON.parse(localStorage.getItem('orderData')) || [];
+  orders.value = Array.isArray(storedOrders) ? storedOrders : [storedOrders];
+};
+
+const removeOrder = (index) => {
+  orders.value.splice(index, 1);
+  localStorage.setItem('orderData', JSON.stringify(orders.value));
+};
+
+const deleteAllOrders = () => {
+  orders.value = [];
+  localStorage.setItem('orderData', JSON.stringify([]));
+};
+
+const grandTotal = computed(() => {
+  return orders.value.reduce((total, order) => total + order.totalPrice, 0);
+});
+
+onMounted(() => {
+  loadOrders();
+});
+
+const addItems = () => {
+  // Your logic to add items
+};
+
+const placeOrder = () => {
+  // Your logic to place the order
+};
+</script>
 
 <style scoped>
 .container {
