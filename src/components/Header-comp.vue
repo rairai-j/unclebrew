@@ -1,4 +1,9 @@
 <template>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script&display=swap"
+    rel="stylesheet"
+  />
+
   <header class="header">
     <h1>
       <img src="../assets/logo.jpg" alt="Uncle Brew Logo" class="logo" />
@@ -8,11 +13,14 @@
     <nav>
       <ul>
         <li><RouterLink to="/">Home</RouterLink></li>
+        <li><RouterLink to="/About">About</RouterLink></li>
         <li><RouterLink to="/Product">Products</RouterLink></li>
-        <li><RouterLink to="/Order">Order</RouterLink></li>
-        <li v-if="isAuthenticated">
-          <!-- Removed direct Logout -->
+        <li>
+          <RouterLink to="/Order">
+            <img src="../assets/cart.png" alt="Cart Icon" class="cart-icon" />
+          </RouterLink>
         </li>
+        <li v-if="isAuthenticated"></li>
         <li v-else>
           <RouterLink to="/Login">Login</RouterLink>
         </li>
@@ -62,7 +70,8 @@ watchEffect(() => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 5vw;
+  height: 60px; /* Set a fixed height */
+  padding: 0 3vw; /* Remove top/bottom padding */
   background-color: #cfb7a1ce;
   font-family: monospace;
   font-size: 20px;
@@ -71,13 +80,14 @@ watchEffect(() => {
 h1 {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: 'Lucida Handwriting', 'Pacifico', cursive;
+  gap: 2rem;
+  font-family: 'Great Vibes', cursive;
+  font-size: 40px;
 }
 
 .logo {
-  width: 80px;
-  height: 75px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   object-fit: cover;
 }
@@ -89,18 +99,29 @@ nav {
 nav ul {
   list-style: none;
   display: flex;
+  align-items: center; /* Align items vertically */
   gap: 1rem;
   color: black;
   padding: 0;
   margin: 0;
 }
+nav ul li {
+  display: flex;
+  align-items: center; /* Align items vertically */
+}
 
 nav ul li a {
   text-decoration: none;
-  color: #020101;
+  color: #140808;
+  font-size: 23px; /* Ensure consistent font size */
+  display: flex;
+  align-items: center; /* Center icon and text alignment */
+  gap: 0.5rem; /* Add spacing between text and icon, if needed */
   transition:
     color 0.3s ease,
     text-decoration 0.3s ease;
+  font-weight: bold;
+  font-family: monospace;
 }
 
 nav ul li a:hover {
@@ -109,7 +130,7 @@ nav ul li a:hover {
 }
 
 .user-icon {
-  margin-left: 1rem;
+  margin-right: 1rem;
   position: relative; /* Required for dropdown positioning */
   cursor: pointer;
 }
@@ -119,7 +140,16 @@ nav ul li a:hover {
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #f86060ce;
+  border: 1px solid #f86060ce;
+  transition:
+    transform 0.3s ease-in-out,
+    border-color 0.3s ease-in-out;
+}
+
+.user-avatar:hover {
+  transform: scale(1.2);
+  border-color: #f86060;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .dropdown-menu {
@@ -144,6 +174,22 @@ nav ul li a:hover {
 
 .dropdown-item:hover {
   background-color: #f86060ce;
-  color: white;
+  color: rgb(255, 252, 252);
+}
+.cart-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #f86060ce;
+  transition:
+    transform 0.3s ease-in-out,
+    border-color 0.3s ease-in-out;
+}
+
+.cart-icon:hover {
+  transform: scale(1.2);
+  border-color: #f86060;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 </style>
